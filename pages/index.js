@@ -1,65 +1,77 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Link from 'next/link'
+import baseUrl from '../helpers/baseUrl'
+import { makeStyles } from '@material-ui/core/styles';
+import { Grid } from "@material-ui/core";
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
 
-export default function Home() {
+const useStyles = makeStyles({
+  root: {
+    maxWidth:"12rem",
+    width:'12rem'
+  },
+  
+  media: {
+    height: 160,
+  },
+  gridContainer: {
+    paddingLeft: "20px",
+    paddingRight: "20px"
+  }
+});
+
+const Home = ({products}) => {
+  const productList = products.map(product =>{
+    const classes = useStyles();
+    return (
+      <Grid container spacing={4} justify="center">
+        <Grid item>
+          <Card display="inline" className={classes.root} key={product._id}>
+            <CardActionArea>
+              <CardMedia
+                className={classes.media}
+                image={product.mediaUrl}
+                title="product image"
+              />
+              <CardContent>
+                <Typography variant="body2" component="p">
+                  ${product.price}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          <CardActions>
+            <Link href={"/product/[id]"} as={`/product/${product._id}`}><a>View Product</a></Link>
+          </CardActions>
+        </Card>
+      </Grid>
+    </Grid>
+  )
+})
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+    <div>
+      <h1 style={{marginLeft:"20px"}}>Available Products</h1>
+      <div style={{display: 'flex'}}>
+      <br/>
+      {productList}
     </div>
+    </div>
+  
   )
 }
+
+export async function getStaticProps(){
+  const res = await fetch(`${baseUrl}/api/products`)
+  const data = await res.json()
+  return {
+    props:{
+      products: data
+    }
+  }
+}
+
+export default Home

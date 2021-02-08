@@ -14,3 +14,50 @@ a {
 * {
   box-sizing: border-box;
 }
+
+/* Navbar css */
+.nav-bar{
+  background-color:#66d6f2;
+  display:flex;
+  padding:10px 0px 10px 15px;
+  color: white;
+}
+
+.nav-item a, .nav-item button, .nav-item p, .nav-item img{
+  float: left;
+  margin: 20px 0px 0px 30px;
+}
+
+.nav-item img{
+  border-radius: 50%;
+  width: 5%;
+}
+
+/* Login page css */
+.login-card{
+  text-align:center;
+  background-color: #b7eaf7;
+  border: 1px solid #b7eaf7;
+  padding-top: 2%;
+  margin: 5% 20% 0% 20%;
+  border-radius: 1%;
+  box-shadow: 10px 10px rgb(168, 167, 167);
+}
+
+.login-card img{
+  border-radius: 50%;
+}
+
+.login-card button, #checkout{
+  background-color:#0a5e74;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  color: white;
+  margin-top: 10px;
+}
+
+/* cart css {default and customize} */
+.default-cart{
+
+}
